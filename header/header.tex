@@ -24,7 +24,6 @@
 \usepackage{graphicx}
 \usepackage{titletoc}			% Editieren des TOCs muss vor hyperref geladen werden
 \usepackage{tocloft}			% Editieren des TOCs muss vor hyperref geladen werden
-%\usepackage[colorlinks, linkcolor = black, citecolor = black, filecolor = black, urlcolor = blue]{hyperref}
 \usepackage{hyperref}
 \usepackage{hyphenat}			%Wortumbruch
 \hyphenation{he-lio-trope opos-sum}
@@ -55,37 +54,50 @@
 \usepackage{wrapfig}
 
 %%%%%%%%%%%%%%%%%%%%%%%
+%% PDF Meta Data
+%%%%%%%%%%%%%%%%%%%%%%%
+
+\hypersetup{pdftex,
+pdfauthor={\Author},
+pdftitle={\Title},
+pdfsubject={\TitleInfo},
+%pdfkeywords={Some Keywords},
+pdfproducer={Latex with hyperref},
+%pdfcreator={pdflatex}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%
 %% Setup Tikz
 %%%%%%%%%%%%%%%%%%%%%%%
-\usepackage{tikz}
-\usepackage{struktex}
-\usepackage{schemabloc}
-\usepackage[normalem]{ulem}
-\usetikzlibrary{circuits}
-\usetikzlibrary{arrows}
-\usetikzlibrary{circuits.ee.IEC}
-\usetikzlibrary{patterns}
-\usetikzlibrary{positioning}
-\usetikzlibrary{shapes,arrows}
-
-\usepackage{pgfplots}
-\usepackage{pgfplotstable}
-\pgfplotsset{compat=newest}
-
-\tikzstyle{block} = [draw, rectangle, minimum height=3em, minimum width=4em]
-\tikzstyle{input} = [coordinate]
-\tikzstyle{output} = [coordinate]
-\tikzstyle{pinstyle} = [pin edge={to-,thin,black}]
-\tikzstyle{sum} = [draw, circle, node distance=1em, minimum height=1.5em]
-\tikzset{>=latex}
-\tikzset{%
-	block/.style    = {draw, thick, rectangle, minimum height = 3em,
-		minimum width = 3em},
-	sum/.style      = {draw, circle, node distance = 1.5cm}, % Adder
-	input/.style    = {coordinate}, % Input
-	output/.style   = {coordinate} % Output
-}
-\newcommand\Umbruch[2][3cm]{\begin{varwidth}{#1}\centering#2\end{varwidth}}
+%\usepackage{tikz}
+%\usepackage{struktex}
+%\usepackage{schemabloc}
+%\usepackage[normalem]{ulem}
+%\usetikzlibrary{circuits}
+%\usetikzlibrary{arrows}
+%\usetikzlibrary{circuits.ee.IEC}
+%\usetikzlibrary{patterns}
+%\usetikzlibrary{positioning}
+%\usetikzlibrary{shapes,arrows}
+%
+%\usepackage{pgfplots}
+%\usepackage{pgfplotstable}
+%\pgfplotsset{compat=newest}
+%
+%\tikzstyle{block} = [draw, rectangle, minimum height=3em, minimum width=4em]
+%\tikzstyle{input} = [coordinate]
+%\tikzstyle{output} = [coordinate]
+%\tikzstyle{pinstyle} = [pin edge={to-,thin,black}]
+%\tikzstyle{sum} = [draw, circle, node distance=1em, minimum height=1.5em]
+%\tikzset{>=latex}
+%\tikzset{%
+%	block/.style    = {draw, thick, rectangle, minimum height = 3em,
+%		minimum width = 3em},
+%	sum/.style      = {draw, circle, node distance = 1.5cm}, % Adder
+%	input/.style    = {coordinate}, % Input
+%	output/.style   = {coordinate} % Output
+%}
+%\newcommand\Umbruch[2][3cm]{\begin{varwidth}{#1}\centering#2\end{varwidth}}
 
 %%%%%%%%%%%%%%%%%%%%%%%
 % Caption Setup
@@ -99,54 +111,115 @@
 {\parskip=-5pt\par\nopagebreak\centering}
 {\parskip=-15pt\par\noindent\ignorespacesafterend}
 
+%Rewritte Referenze Style and TOF,TOT
+\renewcommand{\thefigure}{Abb. \arabic{figure}}
+\renewcommand{\thetable}{Tab. \arabic{table}}
+\renewcommand{\theequation}{Formel \arabic{equation}}
+
+\addto{\captionsngerman}{%
+    %	\renewcommand*{\contentsname}{Inhalt}
+    %	\renewcommand*{\listfigurename}{Abbildungen}
+    %	\renewcommand*{\listtablename}{Tabellen}
+    \renewcommand*{\figurename}{} %Delet Figure name 
+    \renewcommand*{\tablename}{}
+}
+\setlength{\cftfignumwidth}{2cm}	% Width of equation number in List of Figure
+\setlength{\cfttabnumwidth}{2cm}	% Width of equation number in List of Table
+
+%List of Equations
+\newcommand{\listequationsname}{Gleichungen}
+\newlistof{myequations}{equ}{\listequationsname}
+\newcommand{\myequations}[1]{% 
+    \addcontentsline{equ}{myequations}{\protect\numberline{\theequation}#1}\par}
+\setlength{\cftmyequationsnumwidth}{2cm}% Width of equation number in List of Equations
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%
 %% Header and Footer %%
 %%%%%%%%%%%%%%%%%%%%%%%%
 \pagestyle{fancy} %eigener Seitenstil
 \renewcommand{\sectionmark}[1]{\markright{#1}} %entfernt nummer vor section
 \renewcommand{\subsectionmark}[1]{}
+%twopage
+%\ifthenelse{\isodd{\value{page}}}{\leftmark}{\rightmark}
+% or with
+%\fancyhead[OR]{} % "O" for "odd"
+%\fancyhead[ER]{} % "E" for "even"
+
 \fancypagestyle{plain}{
 	\fancyhf{} %alle Kopf- und Fußzeilenfelder bereinigen
-	\fancyhead[L]{\includegraphics[width = 3.5cm]{header/hsrlogo}} %Kopfzeile links
+	\fancyhead[R]{\ifthenelse{\isodd{\value{page}}}{\includegraphics[height = 1cm]{header/hsrlogo.png}}
+								{\includegraphics[height = 1cm]{images/hsr.jpg}}} %Kopfzeile links
 	\fancyhead[C]{\textsl{\rightmark}} %zentrierte Kopfzeile
-	\fancyhead[R]{ } %Kopfzeile rechts
+	\fancyhead[L]{\ifthenelse{\isodd{\value{page}}}{\includegraphics[height = 1cm]{images/hsr.jpg}}
+								{\includegraphics[height = 1cm]{header/hsrlogo.png}}} %Kopfzeile rechts
 	\renewcommand{\headrulewidth}{0.4pt} %obere Trennlinie
 	
-	\fancyfoot[L]{\today}
+	\fancyfoot[R]{\ifthenelse{\isodd{\value{page}}}{Seite \thepage\ / \pageref{LastPage}}{\today}}
 	\fancyfoot[C]{\small{\Author}}
-	\fancyfoot[R]{Seite \thepage\ / \pageref{LastPage}}
+	\fancyfoot[L]{\ifthenelse{\isodd{\value{page}}}{\today}{Seite \thepage\ / \pageref{LastPage}}}
 	\renewcommand{\footrulewidth}{0.4pt} %untere Trennlinie
 }
 
 \fancypagestyle{appendix}{
     \fancyhf{} %alle Kopf- und Fußzeilenfelder bereinigen
-    \fancyhead[L]{} %Kopfzeile links
+    \fancyhead[R]{} %Kopfzeile links
     \fancyhead[C]{} %zentrierte Kopfzeile
-    \fancyhead[R]{} %Kopfzeile rechts
+    \fancyhead[L]{} %Kopfzeile rechts
     \renewcommand{\headrulewidth}{0pt} %obere Trennlinie
     
-    \fancyfoot[L]{}
+    \fancyfoot[R]{\ifthenelse{\isodd{\value{page}}}{Seite \thepage\ / \pageref{LastPage}}{}}
     \fancyfoot[C]{}
-    \fancyfoot[R]{Seite \thepage\ / \pageref{LastPage}}
+    \fancyfoot[L]{\ifthenelse{\isodd{\value{page}}}{}{Seite \thepage\ / \pageref{LastPage}}}
     \renewcommand{\footrulewidth}{0.4pt} %untere Trennlinie
 }
 
 \pagestyle{plain} %Pagesytle
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Textspacing %%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage{titlesec}
-\titlespacing{\section}{-\marginparwidth}{0pt}{0.2em}
-\titlespacing{\subsection}{-\marginparwidth+10pt}{0pt}{0.2em}
-\titlespacing{\subsubsection}{-\marginparwidth+14pt}{0.2em}{0.2em}
-\titlespacing{\paragraph}{-\marginparwidth+18pt}{0.2em}{0.2em}
 
 %%%%%%%%%%%%%%%%%%%%%
-%% Load HSR colors %%
+%% Load HSR Color  %%
 %%%%%%%%%%%%%%%%%%%%%
 \usepackage{xcolor}
 \usepackage{header/HSRColors}
+
+%%%%%%%%%%
+% Colors %
+%%%%%%%%%%
+\definecolor{black}{rgb}{0,0,0}
+\definecolor{red}{rgb}{1,0,0}
+\definecolor{white}{rgb}{1,1,1}
+\definecolor{grey}{rgb}{0.8,0.8,0.8}
+\definecolor{green}{rgb}{0,.8,0.05}
+\definecolor{brown}{rgb}{0.603,0,0}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\definecolor{mygreen}{RGB}{28,172,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\definecolor{mylilas}{RGB}{170,55,241}
+
+\definecolor{gray80}{gray}{0.8}
+\definecolor{gray60}{gray}{0.6}
+\definecolor{gray40}{gray}{0.4}
+\definecolor{gray20}{gray}{0.2}
+
+%%%%%%%%%%%%%%%%%%%%%
+%% Title %%
+%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%Title Spacing-----------------------------------------
+\usepackage{titlesec}
+%\titlespacing{name=\section}{-\marginparwidth}{0pt}{0.2em}
+%\titlespacing{name=\subsection}{-\marginparwidth+10pt}{0pt}{0.2em}
+%\titlespacing{name=\subsubsection}{-\marginparwidth+14pt}{0.2em}{0.2em}
+%\titlespacing{name=\paragraph}{-\marginparwidth+18pt}{0.2em}{0.2em}
+
+\titlespacing{name=\section}{1pt}{0pt}{0.2em}
+\titlespacing{name=\subsection}{1pt}{0pt}{0.2em}
+\titlespacing{name=\subsubsection}{1pt}{0.2em}{0.2em}
+\titlespacing{name=\paragraph}{1pt}{0.2em}{0.2em}
 
 %%%%%%%%%%%%%%%%%%
 %% Bibliography %%
@@ -157,30 +230,9 @@
 \addbibresource{Literatur}
 
 
-%Rewritte Referenze Style and TOF,TOT
-\renewcommand{\thefigure}{Abb. \arabic{figure}}
-\renewcommand{\thetable}{Tab. \arabic{table}}
-\renewcommand{\theequation}{Formel \arabic{equation}}
-
-\addto{\captionsngerman}{%
-	%	\renewcommand*{\contentsname}{Inhalt}
-	%	\renewcommand*{\listfigurename}{Abbildungen}
-	%	\renewcommand*{\listtablename}{Tabellen}
-	\renewcommand*{\figurename}{} %Delet Figure name 
-	\renewcommand*{\tablename}{}
-}
-\setlength{\cftfignumwidth}{2cm}	% Width of equation number in List of Figure
-\setlength{\cfttabnumwidth}{2cm}	% Width of equation number in List of Table
-
 % Abbildungen im Quellenverzeichnis nach Alphabet ordnen, Rest nummerieren
 %\DeclareFieldFormat{labelnumber}{\ifkeyword{abb}{\mknumalph{#1}}{#1}}
 
-%List of Equations
-\newcommand{\listequationsname}{Gleichungen}
-\newlistof{myequations}{equ}{\listequationsname}
-\newcommand{\myequations}[1]{% 
-	\addcontentsline{equ}{myequations}{\protect\numberline{\theequation}#1}\par}
-\setlength{\cftmyequationsnumwidth}{2cm}% Width of equation number in List of Equations
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Itemize and Enumerate spacing %%
@@ -214,20 +266,24 @@
 %%%%%%%%%%%%%
 %% Tabular %%
 %%%%%%%%%%%%%
-\newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}} % Tabelleninhalt linksausgerichtet
-\newcolumntype{L}[1]{>{\raggedleft\arraybackslash}p{#1}} % Tabelleninhalt rechtsausgerichtet
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}} % Tabelleninhalt linksausgerichtet
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}} % Tabelleninhalt rechtsausgerichtet
 \newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}} %  Tabelleninhalt zentriert
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+%% Generelle Makros %%
+%%%%%%%%%%%%%%%%%%%%%%
 
 % If \Print=true, then make all links black for nicer print
 \providecommand*{\True}{true}
 \ifx \Print \True
-\hypersetup{hidelinks}
+\hypersetup{hidelinks, colorlinks, linkcolor = black, citecolor = black, filecolor = black, urlcolor = black}
 \fi
 
 \parindent0pt % Zeileneinzug verhindern
-%%%%%%%%%%%%%%%%%%%%%%
-%% Generelle Makros %%
-%%%%%%%%%%%%%%%%%%%%%%
+
+%Matlab font
 \newcommand{\matlab}[1]{\footnotesize{(Matlab: \texttt{#1})}\normalsize{}}
 
 % Makro für Tabellenbilder gleich unterhalb der Linie
@@ -250,21 +306,6 @@
 	}%
 }
 \makeatother
-
-%%%%%%%%%%
-% Colors %
-%%%%%%%%%%
-\definecolor{black}{rgb}{0,0,0}
-\definecolor{red}{rgb}{1,0,0}
-\definecolor{white}{rgb}{1,1,1}
-\definecolor{grey}{rgb}{0.8,0.8,0.8}
-\definecolor{green}{rgb}{0,.8,0.05}
-\definecolor{brown}{rgb}{0.603,0,0}
-\definecolor{mymauve}{rgb}{0.58,0,0.82}
-\definecolor{mygreen}{RGB}{28,172,0}
-\definecolor{mygray}{rgb}{0.5,0.5,0.5}
-\definecolor{mymauve}{rgb}{0.58,0,0.82}
-\definecolor{mylilas}{RGB}{170,55,241}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -310,90 +351,4 @@
 	\end{picture}
 }
 
-%%%%%%%%%%%%%%%
-% Code Layout %
-%https://en.wikibooks.org/wiki/LaTeX/Source_Code_Listings
-%%%%%%%%%%%%%%%
 
-\lstset{ %
-	firstnumber=1,
-	backgroundcolor=\color{white},   % choose the background color; you must add        \usepackage{color} or \usepackage{xcolor}
-	basicstyle=\footnotesize,        % the size of the fonts that are used for the code
-	breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
-	breaklines=true,                 % sets automatic line breaking
-	captionpos=b,                    % sets the caption-position to bottom
-	commentstyle=\color{mygreen},    % comment style
-	deletekeywords={...},            % if you want to delete keywords from the given language
-	otherkeywords={...},             % if you want to add more keywords to the set
-	escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
-	extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
-	frame=single,	                 % adds a frame around the code
-	keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
-	keywordstyle=\color{blue},       % keyword style
-	language=C++,                    % the language of the code   
-	numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
-	numbersep=5pt,                   % how far the line-numbers are from the code
-	numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
-	rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
-	showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
-	showstringspaces=false,          % underline spaces within strings only
-	showtabs=false,                  % show tabs within strings adding particular underscores
-	stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
-	stringstyle=\color{mymauve},     % string literal style
-	tabsize=2,	                     % sets default tabsize to 2 spaces
-	%title=\lstname                   % show the filename of files included with         \lstinputlisting; also try caption instead of title
-}
-
-\lstdefinestyle{customc++}{
-	belowcaptionskip=1\baselineskip,
-	%frame=L,
-	xleftmargin=\parindent,
-	language=C++,
-	basicstyle=\footnotesize\ttfamily,
-	keywordstyle=\bfseries\color{blue},
-	commentstyle=\itshape\color{mygreen},
-	identifierstyle=\color{black},
-	stringstyle=\color{gray},
-}
-
-\lstset{ %
-	texcl=true,
-	firstnumber=1,
-	backgroundcolor=\color{white},   % choose the background color; you must add  \usepackage{color} or \usepackage{xcolor}
-	basicstyle=\footnotesize,        % the size of the fonts that are used for the code
-	breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
-	breaklines=true,                 % sets automatic line breaking
-	captionpos=b,                    % sets the caption-position to bottom
-	commentstyle=\color{mygreen},    % comment style
-	deletekeywords={...},            % if you want to delete keywords from the given language
-	otherkeywords={...},             % if you want to add more keywords to the set
-	escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
-	extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
-	frame=single,	                 % adds a frame around the code
-	keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
-	keywordstyle=\color{blue},       % keyword style
-	language=Matlab,                    % the language of the code   
-	numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
-	numbersep=5pt,                   % how far the line-numbers are from the code
-	numberstyle=\tiny\color{black}, % the style that is used for the line-numbers
-	rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
-	showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
-	showstringspaces=false,          % underline spaces within strings only
-	showtabs=false,                  % show tabs within strings adding particular underscores
-	stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
-	stringstyle=\color{mylilas},     % string literal style
-	tabsize=2,	                     % sets default tabsize to 2 spaces
-	%title=\lstname                   % show the filename of files included with         \lstinputlisting; also try caption instead of title
-}
-
-\lstdefinestyle{custommatlab}{
-	belowcaptionskip=1\baselineskip,
-	%frame=L,
-	xleftmargin=\parindent,
-	language=Matlab,
-	basicstyle=\footnotesize\ttfamily,
-	keywordstyle=\bfseries\color{blue},
-	commentstyle=\itshape\color{mygreen},
-	identifierstyle=\color{black},
-	stringstyle=\color{mylilas},
-}

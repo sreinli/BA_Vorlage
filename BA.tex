@@ -1,18 +1,24 @@
 % Dokumentinformationen
+%Vorlage erstellt von Luca Mazzoleni aufbaudend auf der Vorlage von Stefan Reinli
+
 % !TeX program = pdflatex
 % !TeX encoding = utf8
 % !TeX spellcheck = de_DE
+% !BIB program = bibtex
 
 \documentclass[
 11pt,
 final,
-oneside,
+twoside,
 a4paper]{article}
 %%%%
+
 % Document information
-\newcommand*{\Title}            {Hier kommt der\\ Titel der Arbeit hin}
+\newcommand*{\Title}            {Hier k\"ommt der\\ Titel der Arbeit}
 \newcommand*{\TitleInfo}        {Bachelorarbeit FS 2017}
-\newcommand*{\Author}			{Hans Muster}
+\newcommand*{\AuthorOne}		{Hans Muster1}
+\newcommand*{\AuthorTwo}		{Hans Muster2}
+\newcommand*{\Author}			{\AuthorOne, \AuthorTwo}
 \newcommand*{\Prof}				{Name des Dozenten}
 \newcommand*{\Modul}			{Name des Moduls}
 \newcommand*{\Betreuer}			{Name des Betreuers}
@@ -21,6 +27,7 @@ a4paper]{article}
 
 % Header
 \include{header/header}
+\include{header/codelayout}
 \setcounter{secnumdepth}{4}
 
 \usepackage{lipsum} %for example
@@ -28,11 +35,6 @@ a4paper]{article}
 \tcbset{width=(\linewidth-1mm)/2,before=,after=\hfill,arc=0mm,
 	colframe=red!50!black,colback=white,colback = red!10}
 
-% custom section
-\definecolor{gray80}{gray}{0.8}
-\definecolor{gray60}{gray}{0.6}
-\definecolor{gray40}{gray}{0.4}
-\definecolor{gray20}{gray}{0.2}
 \newcommand{\hsp}{\hspace{20pt}}
 \titleformat{\section}[hang]{\Huge\bfseries}{\thesection\hsp\textcolor{gray80}{|}\hsp}{0pt}{\Huge\bfseries}
 \titleformat{\subsection}[hang]{\huge\bfseries}{\thesubsection\hsp\textcolor{gray60}{|}\hsp}{0pt}{\Large\bfseries}
@@ -50,30 +52,36 @@ a4paper]{article}
 	\pagebreak
 	\thispagestyle{empty}
 	\listoftodos
+    \clearpage
 	\pagebreak
 	
-\newgeometry{left=4cm,right=2cm,top=1cm,bottom=1cm,headsep=1.5cm, marginparwidth=30mm,marginparsep=3mm,reversemarginpar,includeheadfoot}
+\newgeometry{left=2cm,right=4cm,top=1cm,bottom=1cm,headsep=1.5cm, marginparwidth=30mm,marginparsep=3mm,includeheadfoot}
 	\thispagestyle{empty}
 	\input{sections/Abstract}
 	\clearpage
 	\pagebreak
 
-\newgeometry{left=2cm,right=2cm,top=1cm,bottom=1cm,headsep=1.5cm, marginparwidth=1mm,marginparsep=3mm,reversemarginpar,includeheadfoot} %Seitenränder Dokument ohne Titelblatt und Abstract
+\newgeometry{left=2cm,right=2cm,top=1cm,bottom=1cm,headsep=1.5cm, marginparwidth=1mm,marginparsep=3mm,includeheadfoot} %Seitenränder Dokument ohne Titelblatt und Abstract
 	\begin{spacing}{1}
 		\startcontents[sections]
 		\printcontents[sections]{l}{1}{\setcounter{tocdepth}{4}\section*{Inhaltsverzeichnis}}	
 	\end{spacing}
-	\clearpage
-	\pagebreak
+	\cleardoublepage 
+	
 
 
-\newgeometry{left=4cm,right=2cm,top=1cm,bottom=1cm,headsep=1.5cm, marginparwidth=30mm,marginparsep=3mm,reversemarginpar,includeheadfoot}
+\newgeometry{left=2cm,right=4cm,top=1cm,bottom=1cm,headsep=1.5cm, marginparwidth=30mm,marginparsep=3mm,includeheadfoot}
 	\pagebreak
 	\input{sections/Aufgabenstellung}
+    \cleardoublepage
 	\pagebreak
 	\input{sections/Einleitung}
 	\pagebreak
+    \input{sections/Einleitung}
+    \pagebreak
 	\input{sections/Pflichtenheft}
+    \pagebreak
+    \input{sections/Pflichtenheft}
 	\pagebreak
 	\input{sections/Projektplan}
 	\pagebreak
@@ -82,7 +90,7 @@ a4paper]{article}
 	\input{sections/Fazit}
 	\pagebreak
 
-\newgeometry{left=2cm,right=2cm,top=1cm,bottom=1cm,headsep=1.5cm, marginparwidth=1mm,marginparsep=3mm,reversemarginpar,includeheadfoot}	
+\newgeometry{left=2cm,right=2cm,top=1cm,bottom=1cm,headsep=1.5cm, marginparwidth=1mm,marginparsep=3mm,includeheadfoot}	
 	\input{sections/Eigenstaendigkeitserklaerung}
 	\pagebreak
 	\input{sections/Verzeichnisse}
